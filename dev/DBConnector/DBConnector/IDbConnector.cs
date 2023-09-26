@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DBConnector.IF
+﻿namespace DBConnector.IF
 {
-    internal interface IDbConnector<Reader> : IDisposable
+    public interface IDBConnector<Reader> : IDisposable
     {
         Reader ExecuteQuery(string query);
         Reader ExecuteQuery(string query, Dictionary<string, object> parameters);
