@@ -32,7 +32,5 @@ namespace DBConnector.SQLite
 
         [XmlElement("Path")]
         public string Path { get; set; }
-
-
     }
 }
