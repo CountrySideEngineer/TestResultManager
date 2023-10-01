@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DBConnector.IF">
+      <HintPath>..\..\bin\Release\net6.0\DBConnector.IF.dll</HintPath>
+    </Reference>
+    <Reference Include="DBConnector.SQLite">
+      <HintPath>..\..\bin\Release\net6.0\DBConnector.SQLite.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
