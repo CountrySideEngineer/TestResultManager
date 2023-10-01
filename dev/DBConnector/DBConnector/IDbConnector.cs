@@ -16,5 +16,7 @@
         void BeginTransaction();
         void Commit();
         void Rollback();
+
+        bool IsDbLocked();
     }
 }

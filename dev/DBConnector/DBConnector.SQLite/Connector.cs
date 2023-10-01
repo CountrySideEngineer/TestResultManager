@@ -157,5 +157,34 @@ namespace DBConnector.SQLite
             string connectionString = $"Data source={path}";
             return connectionString;
         }
+
+        /// <summary>
+        /// Check whether the data base has been locked or not.
+        /// </summary>
+        /// <returns>Ture if the data base is locked, otherwise returns false.</returns>
+        public virtual bool IsDbLocked()
+        {
+            bool isLocked = true;
+            using (var cmd = new SQLiteCommand())
+            {
+                try
+                {
+					cmd.Connection = _connection;
+					cmd.Transaction = _transaction;
+					cmd.CommandText = "BEGIN EXCLUSIVE";
+					cmd.CommandTimeout = 0;
+					cmd.ExecuteNonQuery();
+
+					cmd.CommandText = "COMMIT";
+					cmd.ExecuteNonQuery();
+					isLocked = false;
+				}
+				catch (SQLiteException)
+                {
+                    //database is locked error.
+                }
+            }
+            return isLocked;
+        }
     }
 }
