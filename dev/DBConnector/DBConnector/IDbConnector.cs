@@ -9,7 +9,7 @@
         int ExecuteNonQuery(string query, Dictionary<string, object> parameters);
 
         void Connect();
-        void DisConnect();
+        void Disconnect();
 
         string SetupConnectionString();
 
