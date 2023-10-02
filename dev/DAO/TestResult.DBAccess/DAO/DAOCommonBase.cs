@@ -83,14 +83,12 @@ namespace TestResult.DBAccess.DAO
 		{
 			string query = GetDeleteQuery();
 			var parameters = GetParameters(dto);
-			using (var connection = new Connector())
-			{
-				connection.BeginTransaction();
-				int count = connection.ExecuteNonQuery(query, parameters);
-				connection.Commit();
+			using var connection = new Connector();
+			connection.BeginTransaction();
+			int count = connection.ExecuteNonQuery(query, parameters);
+			connection.Commit();
 
-				return count;
-			}
+			return count;
 		}
 
 		/// <summary>
@@ -115,12 +113,10 @@ namespace TestResult.DBAccess.DAO
 		/// <returns></returns>
 		protected IEnumerable<DTO> ExecuteQuery(string query, Dictionary<string, object> parameters)
 		{
-			using (var connection = new Connector())
-			using (IDataReader reader = connection.ExecuteQuery(query, parameters))
-			{
-				var records = (IEnumerable<DTO>)ReaderToObject(reader);
-				return records;
-			}
+			using var connection = new Connector();
+			using IDataReader reader = connection.ExecuteQuery(query, parameters);
+			var records = (IEnumerable<DTO>)ReaderToObject(reader);
+			return records;
 		}
 
 		/// <summary>
@@ -131,14 +127,12 @@ namespace TestResult.DBAccess.DAO
 		/// <returns></returns>
 		protected int ExecuteNonQuery(string query, Dictionary<string, object> parameters)
 		{
-			using (var connection = new Connector())
-			{
-				connection.BeginTransaction();
-				int count = connection.ExecuteNonQuery(query, parameters);
-				connection.Commit();
+			using var connection = new Connector();
+			connection.BeginTransaction();
+			int count = connection.ExecuteNonQuery(query, parameters);
+			connection.Commit();
 
-				return count;
-			}
+			return count;
 		}
 
 		protected abstract IEnumerable<DTOBase> ReaderToObject(IDataReader reader);
