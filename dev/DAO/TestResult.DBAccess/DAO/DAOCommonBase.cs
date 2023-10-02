@@ -15,6 +15,22 @@ namespace TestResult.DBAccess.DAO
 	public abstract class DAOCommonBase<DTO> : IDAO
 		where DTO : DTOBase
 	{
+		protected string _tableName = string.Empty;
+
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		protected DAOCommonBase() { }
+
+		/// <summary>
+		/// Constructor with argument.
+		/// </summary>
+		/// <param name="tableName">Table name to access in the DAO.</param>
+		public DAOCommonBase(string tableName)
+		{
+			_tableName = tableName;
+		}
+
 		/// <summary>
 		/// SELECT all record in a table.
 		/// </summary>
@@ -125,7 +141,7 @@ namespace TestResult.DBAccess.DAO
 			}
 		}
 
-		protected abstract IEnumerable<object> ReaderToObject(IDataReader reader);
+		protected abstract IEnumerable<DTOBase> ReaderToObject(IDataReader reader);
 
 		protected abstract string GetSelectAllQuery();
 		protected abstract string GetSelectQuery();
