@@ -15,7 +15,7 @@ namespace TestResult.DBAccess.DTO
 
 		public string Detail { get; set; } = string.Empty;
 
-		public TestCaseDTO BaseTestCase { get; set; } = null;
+		public TestCaseDTO? BaseTestCase { get; set; } = null;
 
 		/// <summary>
 		/// Default constructor.

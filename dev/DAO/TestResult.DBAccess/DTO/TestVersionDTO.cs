@@ -11,9 +11,9 @@ namespace TestResult.DBAccess.DTO
 	{
 		public string VersionCode { get; set; } = string.Empty;
 
-		public TestVersionDTO PreviousVersion { get; set; } = null;
+		public TestVersionDTO? PreviousVersion { get; set; } = null;
 
-		public ProductDTO Product { get; set; } = null;
+		public ProductDTO? Product { get; set; } = null;
 
 		/// <summary>
 		/// Default constructor.
