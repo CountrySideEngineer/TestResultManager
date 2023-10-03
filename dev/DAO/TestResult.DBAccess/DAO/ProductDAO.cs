@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 using TestResult.DBAccess.DTO;
 
 namespace TestResult.DBAccess.DAO
@@ -23,43 +24,43 @@ namespace TestResult.DBAccess.DAO
 			return query;
 		}
 
-		protected override string GetSelectQuery()
+		protected override string GetSelectQuery(object dto)
 		{
-			string query = $"SELECT * FROM {_tableName};";
+			ProductDTO productDto = (ProductDTO)dto;
+			string query = 
+				$"SELECT * FROM {_tableName} " +
+				$"WHERE name = {productDto.Name};";
 			return query;
 		}
 
-		protected override string GetDeleteQuery()
+		protected override string GetDeleteQuery(object dto)
 		{
-			string query = $"DELETE FROM {_tableName} WHERE name = @name;";
+			ProductDTO productDto = (ProductDTO)dto;
+			string query = 
+				$"DELETE FROM {_tableName} " +
+				$"WHERE name = {productDto.Name};";
 			return query;
 		}
 
-		protected override string GetInsertQuery()
+		protected override string GetInsertQuery(object dto)
 		{
+			ProductDTO productDto = (ProductDTO)dto;
 			string query =
 				$"INSERT OR IGNORE INTO {_tableName} " +
 				"(name) " +
 				"VALUES " +
-				"(@name);";
+				$"({productDto.Name});";
 			return query;
 		}
 
-		protected override Dictionary<string, object> GetParameters(object dto)
+		protected override string GetUpdateQuery(object dto)
 		{
-			var productDto = (ProductDTO)dto;
-			var parameters = new Dictionary<string, object>();
-			parameters.Add("@id", productDto.ID);
-			parameters.Add("@name", productDto.Name);
-			return parameters;
-		}
-
-		protected override string GetUpdateQuery()
-		{
-			string query = "UPDATE products " +
-				"name = @name, " +
+			ProductDTO productDto = (ProductDTO)dto;
+			string query = 
+				$"UPDATE {_tableName} " +
+				$"name = {productDto.Name}, " +
 				"updated_at = CURRENT_TIMESTMAP " +
-				"WHERE name = @name;";
+				$"WHERE name = {_tableName};";
 			return query;
 		}
 

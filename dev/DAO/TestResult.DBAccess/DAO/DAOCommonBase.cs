@@ -9,6 +9,7 @@ using System.Data;
 using System.Collections;
 using DBConnector.DTO;
 using System.Reflection.Metadata;
+using System.ComponentModel;
 
 namespace TestResult.DBAccess.DAO
 {
@@ -38,9 +39,7 @@ namespace TestResult.DBAccess.DAO
 		public virtual object SelectAll()
 		{
 			string query = GetSelectAllQuery();
-			var parameters = new Dictionary<string, object>();
-
-			IEnumerable<DTO> records = ExecuteQuery(query, parameters);
+			IEnumerable<DTO> records = ExecuteQuery(query);
 
 			return records;
 		}
@@ -52,10 +51,8 @@ namespace TestResult.DBAccess.DAO
 		/// <returns></returns>
 		public virtual object Select(object dto)
 		{
-			string query = GetSelectQuery();
-			var parameters = GetParameters(dto);
-
-			IEnumerable<DTO> records = ExecuteQuery(query, parameters);
+			string query = GetSelectQuery(dto);
+			IEnumerable<DTO> records = ExecuteQuery(query);
 
 			return records;
 		}
@@ -67,9 +64,8 @@ namespace TestResult.DBAccess.DAO
 		/// <returns></returns>
 		public virtual object Insert(object dto)
 		{
-			string query = GetInsertQuery();
-			var parameters = GetParameters(dto);
-			int count = ExecuteNonQuery(query, parameters);
+			string query = GetInsertQuery(dto);
+			int count = ExecuteNonQuery(query);
 
 			return count;
 		}
@@ -81,13 +77,8 @@ namespace TestResult.DBAccess.DAO
 		/// <returns>The number of record deleted from a table.</returns>
 		public virtual object Delete(object dto)
 		{
-			string query = GetDeleteQuery();
-			var parameters = GetParameters(dto);
-			using var connection = new Connector();
-			connection.BeginTransaction();
-			int count = connection.ExecuteNonQuery(query, parameters);
-			connection.Commit();
-
+			string query = GetDeleteQuery(dto);
+			int count = ExecuteNonQuery(query);
 			return count;
 		}
 
@@ -98,10 +89,8 @@ namespace TestResult.DBAccess.DAO
 		/// <returns>The number of record updated.</returns>
 		public virtual object Update(object dto)
 		{
-			string query = GetUpdateQuery();
-			var parameters = GetParameters(dto);
-			int count = ExecuteNonQuery(query, parameters);
-
+			string query = GetUpdateQuery(dto);
+			int count = ExecuteNonQuery(query);
 			return count;
 		}
 
@@ -111,10 +100,10 @@ namespace TestResult.DBAccess.DAO
 		/// <param name="query"></param>
 		/// <param name="parameters"></param>
 		/// <returns></returns>
-		protected IEnumerable<DTO> ExecuteQuery(string query, Dictionary<string, object> parameters)
+		protected IEnumerable<DTO> ExecuteQuery(string query)
 		{
 			using var connection = new Connector();
-			using IDataReader reader = connection.ExecuteQuery(query, parameters);
+			using IDataReader reader = connection.ExecuteQuery(query);
 			var records = (IEnumerable<DTO>)ReaderToObject(reader);
 			return records;
 		}
@@ -125,11 +114,11 @@ namespace TestResult.DBAccess.DAO
 		/// <param name="query"></param>
 		/// <param name="parameters"></param>
 		/// <returns></returns>
-		protected int ExecuteNonQuery(string query, Dictionary<string, object> parameters)
+		protected int ExecuteNonQuery(string query)
 		{
 			using var connection = new Connector();
 			connection.BeginTransaction();
-			int count = connection.ExecuteNonQuery(query, parameters);
+			int count = connection.ExecuteNonQuery(query);
 			connection.Commit();
 
 			return count;
@@ -138,11 +127,9 @@ namespace TestResult.DBAccess.DAO
 		protected abstract IEnumerable<DTOBase> ReaderToObject(IDataReader reader);
 
 		protected abstract string GetSelectAllQuery();
-		protected abstract string GetSelectQuery();
-		protected abstract string GetInsertQuery();
-		protected abstract string GetDeleteQuery();
-		protected abstract string GetUpdateQuery();
-
-		protected abstract Dictionary<string, object> GetParameters(object dto);
+		protected abstract string GetSelectQuery(object obj);
+		protected abstract string GetInsertQuery(object obj);
+		protected abstract string GetDeleteQuery(object obj);
+		protected abstract string GetUpdateQuery(object obj);
 	}
 }
