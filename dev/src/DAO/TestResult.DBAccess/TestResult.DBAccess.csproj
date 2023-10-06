@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <BaseOutputPath>..\..\bin</BaseOutputPath>
+    <BaseOutputPath>..\..\..\bin</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,10 +13,10 @@
 
   <ItemGroup>
     <Reference Include="DBConnector.IF">
-      <HintPath>..\..\bin\Release\net6.0\DBConnector.IF.dll</HintPath>
+      <HintPath>..\..\..\bin\Release\net6.0\DBConnector.IF.dll</HintPath>
     </Reference>
     <Reference Include="DBConnector.SQLite">
-      <HintPath>..\..\bin\Release\net6.0\DBConnector.SQLite.dll</HintPath>
+      <HintPath>..\..\..\bin\Release\net6.0\DBConnector.SQLite.dll</HintPath>
     </Reference>
   </ItemGroup>
 
