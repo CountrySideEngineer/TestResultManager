@@ -26,12 +26,6 @@ namespace TestResult.DBAccess.DAO
 		/// <param name="tableName">Table name.</param>
 		public SimpleDAO(string tableName) : base(tableName) { }
 
-		protected override string GetSelectAllQuery()
-		{
-			string query = $"SELECT * FROM {_tableName};";
-			return query;
-		}
-
 		protected override string GetSelectQuery(object dto)
 		{
 			var concreteDto = (SimpleDTO)dto;

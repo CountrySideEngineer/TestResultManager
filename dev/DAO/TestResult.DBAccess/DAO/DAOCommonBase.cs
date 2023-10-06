@@ -126,7 +126,12 @@ namespace TestResult.DBAccess.DAO
 
 		protected abstract IEnumerable<DTOBase> ReaderToObject(IDataReader reader);
 
-		protected abstract string GetSelectAllQuery();
+		protected virtual string GetSelectAllQuery()
+		{
+			string query = $"SELECT * FROM {_tableName}";
+			return query;
+		}
+
 		protected abstract string GetSelectQuery(object obj);
 		protected abstract string GetInsertQuery(object obj);
 		protected abstract string GetDeleteQuery(object obj);
