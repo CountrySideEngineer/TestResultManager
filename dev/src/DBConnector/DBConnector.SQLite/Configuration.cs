@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 namespace DBConnector.SQLite
 {
     [XmlRoot("Configuration")]
-    internal class Configuration
+    public class Configuration
     {
         protected static string _configPath = @".\SQLiteConfiguration.xml";
         public static Configuration Load()
