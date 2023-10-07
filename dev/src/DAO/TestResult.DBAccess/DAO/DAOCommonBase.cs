@@ -39,7 +39,7 @@ namespace TestResult.DBAccess.DAO
 		public virtual object SelectAll()
 		{
 			string query = GetSelectAllQuery();
-			IEnumerable<DTO> records = ExecuteQuery(query);
+			IEnumerable<DTOBase> records = ExecuteQuery(query);
 
 			return records;
 		}
@@ -52,7 +52,7 @@ namespace TestResult.DBAccess.DAO
 		public virtual object Select(object dto)
 		{
 			string query = GetSelectQuery(dto);
-			IEnumerable<DTO> records = ExecuteQuery(query);
+			IEnumerable<DTOBase> records = ExecuteQuery(query);
 
 			return records;
 		}
@@ -100,11 +100,11 @@ namespace TestResult.DBAccess.DAO
 		/// <param name="query"></param>
 		/// <param name="parameters"></param>
 		/// <returns></returns>
-		protected IEnumerable<DTO> ExecuteQuery(string query)
+		protected IEnumerable<DTOBase> ExecuteQuery(string query)
 		{
 			using var connection = new Connector();
 			using IDataReader reader = connection.ExecuteQuery(query);
-			var records = (IEnumerable<DTO>)ReaderToObject(reader);
+			var records = (IEnumerable<DTOBase>)ReaderToObject(reader);
 			return records;
 		}
 

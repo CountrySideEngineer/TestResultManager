@@ -7,7 +7,7 @@ using TestResult.DBAccess.DTO;
 
 namespace TestResult.DBAccess.DAO
 {
-	internal class FunctionDAO : SimpleDAO<FunctionDTO>
+	public class FunctionDAO : SimpleDAO<FunctionDTO>
 	{
 		/// <summary>
 		/// Default constructor.

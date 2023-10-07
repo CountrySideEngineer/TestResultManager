@@ -10,7 +10,7 @@ using TestResult.DBAccess.DTO;
 namespace TestResult.DBAccess.DAO
 {
 	public class SimpleDAO<DTO> : DAOCommonBase<DTO>
-		where DTO : DTOBase, new()
+		where DTO : SimpleDTO, new()
 	{
 		/// <summary>
 		/// Default constructor.
@@ -71,7 +71,7 @@ namespace TestResult.DBAccess.DAO
 			var list = new List<DTOBase>();
 			while (reader.Read())
 			{
-				var item = new SimpleDTO();
+				var item = new DTO();
 				item.ID = Convert.ToInt32(reader["id"]);
 				item.Name = reader["name"].ToString();
 				item.CreatedAt = DateTime.Parse(reader["created_at"].ToString());
