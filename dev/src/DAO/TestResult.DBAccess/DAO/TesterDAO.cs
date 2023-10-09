@@ -31,7 +31,7 @@ namespace TestResult.DBAccess.DAO
 			var dto = (TesterDTO)obj;
 			string query =
 				$"INSERT OR IGNORE INTO {_tableName} " +
-				"(tester_code, company, sectino, name) " +
+				"(tester_code, company, section, name) " +
 				"VALUES " +
 				$"(\'{dto.TesterCode}\', \'{dto.Company}\', \'{dto.Section}\', \'{dto.Name}\')";
 			return query;
@@ -54,7 +54,7 @@ namespace TestResult.DBAccess.DAO
 				"SET " +
 				$"company = \'{dto.Company}\' " +
 				$", section = \'{dto.Section}\' " +
-				$", ma,e = \'{dto.Name}\' " +
+				$", name = \'{dto.Name}\' " +
 				", updated_at = CURRENT_TIMESTAMP " +
 				$"WHERE tester_code = \'{dto.TesterCode}\';";
 			return query;
@@ -68,7 +68,7 @@ namespace TestResult.DBAccess.DAO
 				var item = new TesterDTO();
 				item.ID = Convert.ToInt32(reader["id"]);
 				item.TesterCode = reader["tester_code"].ToString();
-				item.Company = reader["compaby"].ToString();
+				item.Company = reader["company"].ToString();
 				item.Section = reader["section"].ToString();
 				item.Name = reader["name"].ToString();
 				item.CreatedAt = DateTime.Parse(reader["created_at"].ToString());
