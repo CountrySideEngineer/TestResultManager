@@ -11,6 +11,11 @@ namespace TestResult.DBAccess.DAO
 {
 	public class TestExecutionTypeDAO : DAOCommonBase<TestExecutionTypeDTO>
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
+		public TestExecutionTypeDAO() : base("test_execution_types") { }
+
 		protected override string GetDeleteQuery(object obj)
 		{
 			TestExecutionTypeDTO dto = (TestExecutionTypeDTO)obj;
@@ -23,11 +28,12 @@ namespace TestResult.DBAccess.DAO
 		protected override string GetInsertQuery(object obj)
 		{
 			TestExecutionTypeDTO dto = (TestExecutionTypeDTO)obj;
+			int isRun = dto.IsRun == false ? 0 : 1;
 			string query =
 				$"INSERT OR IGNORE INTO {_tableName} " +
 				"(type_text, is_run) " +
 				"VALUES " +
-				$"(\'{dto.TypeText}\', \'{dto.IsRun}\');";
+				$"(\'{dto.TypeText}\', {isRun});";
 			return query;
 		}
 
@@ -43,8 +49,13 @@ namespace TestResult.DBAccess.DAO
 		protected override string GetUpdateQuery(object obj)
 		{
 			TestExecutionTypeDTO dto = (TestExecutionTypeDTO)obj;
+			int isRun = dto.IsRun == false ? 0 : 1;
 			string query =
-				$"SELECT * FROM {_tableName} " +
+				$"UPDATE {_tableName} " +
+				"SET " +
+				$"type_text = \'{dto.TypeText}\' " +
+				$", is_run = {isRun} " +
+				$", updated_at = CURRENT_TIMESTAMP " +
 				$"WHERE type_text = \'{dto.TypeText}\';";
 			return query;
 		}
