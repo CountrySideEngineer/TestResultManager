@@ -31,7 +31,7 @@ namespace TestResult.DBAccess.DAO
 			var concreteDto = (SimpleDTO)dto;
 			string query =
 				$"SELECT * FROM {_tableName} " +
-				$"WHERE name = {concreteDto.Name};";
+				$"WHERE name = \'{concreteDto.Name}\';";
 			return query;
 		}
 
@@ -40,7 +40,7 @@ namespace TestResult.DBAccess.DAO
 			var concreteDto = (SimpleDTO)dto;
 			string query =
 				$"DELETE FROM {_tableName} " +
-				$"WHERE name = {concreteDto.Name};";
+				$"WHERE name = \'{concreteDto.Name}\';";
 			return query;
 		}
 
@@ -51,19 +51,34 @@ namespace TestResult.DBAccess.DAO
 				$"INSERT OR IGNORE INTO {_tableName} " +
 				"(name) " +
 				"VALUES " +
-				$"({concreteDto.Name});";
+				$"(\'{concreteDto.Name}\');";
 			return query;
 		}
 
 		protected override string GetUpdateQuery(object dto)
 		{
-			var concreteDto = (SimpleDTO)dto;
-			string query =
-				$"UPDATE {_tableName} " +
-				$"name = {concreteDto.Name}, " +
-				"updated_at = CURRENT_TIMESTMAP " +
-				$"WHERE name = {_tableName};";
-			return query;
+			try
+			{
+				var dtos = (IEnumerable<DTOBase>)dto;
+				SimpleDTO dtoBefore = (SimpleDTO)dtos.ElementAt(0);
+				SimpleDTO dtoAfter = (SimpleDTO)dtos.ElementAt(1);
+				string query =
+					$"UPDATE {_tableName} " +
+					$"SET name = \'{dtoAfter.Name}\', " +
+					"updated_at = CURRENT_TIMESTAMP " +
+					$"WHERE name = \'{dtoBefore.Name}\';";
+				return query;
+			}
+			catch (NullReferenceException)
+			{
+				throw new ArgumentNullException();
+			}
+			catch (Exception ex)
+			when ((ex is InvalidCastException) ||
+				(ex is IndexOutOfRangeException))
+			{
+				throw new ArgumentException();
+			}
 		}
 
 		protected override IEnumerable<DTOBase> ReaderToObject(IDataReader reader)
