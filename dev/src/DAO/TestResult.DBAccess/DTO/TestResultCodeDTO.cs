@@ -12,6 +12,8 @@ namespace TestResult.DBAccess.DTO
 	{
 		public string ResultText { get; set; } = string.Empty;
 
+		public string OutputText { get; set; } = string.Empty;
+
 		/// <summary>
 		/// Default constructor.
 		/// </summary>

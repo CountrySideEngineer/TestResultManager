@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Data.SQLite;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TestResult.DBAccess.DTO;
@@ -23,7 +24,11 @@ namespace TestResult.DBAccess.DAO
 			var dto = (TestResultCodeDTO)obj;
 			string query =
 				$"DELETE FROM {_tableName} " +
-				$"WHERE result_text = \'{dto.ResultText}\';";
+				$"WHERE " +
+					$"result_text = \'{dto.ResultText}\'" +
+					" AND " +
+					$"output_text = \'{dto.OutputText}\'" +
+					";";
 			return query;
 		}
 
@@ -32,9 +37,12 @@ namespace TestResult.DBAccess.DAO
 			var dto = (TestResultCodeDTO)obj;
 			string query =
 				$"INSERT OR IGNORE INTO {_tableName} " +
-				"(result_text) " +
+				"(result_text, output_text) " +
 				"VALUES " +
-				$"(\'{dto.ResultText}\');";
+				"(" +
+					$"\'{dto.ResultText}\', " +
+					$"\'{dto.OutputText}\'" +
+				$");";
 			return query;	
 		}
 
@@ -43,7 +51,11 @@ namespace TestResult.DBAccess.DAO
 			var dto = (TestResultCodeDTO)obj;
 			string query =
 				$"SELECT * FROM {_tableName} " +
-				$"WHERE tester_code = \'{dto.ResultText}\';";
+				"WHERE " +
+				$"reuslt_text = \'{dto.ResultText}\'" +
+				" AND " +
+				$"output_text = \'{dto.OutputText}\'" +
+				";";
 			return query;
 		}
 
@@ -54,9 +66,15 @@ namespace TestResult.DBAccess.DAO
 			var dtoAfter = (TestResultCodeDTO)dtos.ElementAt(1);
 			string query =
 				$"UPDATE {_tableName} " +
-				$"SET result_text = \'{dtoAfter.ResultText}\' " +
-				$", updated_at = CURRENT_TIMESTAMP " +
-				$"WHERE result_text = \'{dtoBefore.ResultText}\';";
+				"SET " +
+					$"result_text = \'{dtoAfter.ResultText}\'" +
+					$", output_text = \'{dtoAfter.OutputText}\'" +
+					$", updated_at = CURRENT_TIMESTAMP " +
+				"WHERE " +
+					$"result_text = \'{dtoBefore.ResultText}\'" +
+					" AND " +
+					$"output_text = \'{dtoBefore.OutputText}\'" +
+					";";
 			return query;
 		}
 
@@ -68,6 +86,7 @@ namespace TestResult.DBAccess.DAO
 				var item = new TestResultCodeDTO();
 				item.ID = Convert.ToInt32(reader["id"]);
 				item.ResultText = reader["result_text"].ToString();
+				item.OutputText = reader["output_text"].ToString();
 				item.CreatedAt = DateTime.Parse(reader["created_at"].ToString());
 				item.UpdatedAt = DateTime.Parse(reader["updated_at"].ToString());
 				list.Add(item);
