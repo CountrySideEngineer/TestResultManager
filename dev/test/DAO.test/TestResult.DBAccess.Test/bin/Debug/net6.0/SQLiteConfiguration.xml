@@ -1,0 +1,3 @@
+<Configuration>
+	<Path>.\TestResult.DBAccess.Test.db</Path>
+</Configuration>
